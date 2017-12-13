@@ -26,31 +26,31 @@
     </bean>
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="configLocation" value="mybatis-config.xml"/>
-        <property name="dataSource" ref="dataSource"/>
-        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml" />
+        <property name="dataSource" ref="dataSource" />
+        <property name="mapperLocations" value="classpath:mapper/*.xml" />
     </bean>
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.authority.dao"/>
-        <property name="sqlSessionFactoryBeanName" ref="sqlSessionFactory"/>
+        <property name="basePackage" value="com.authority.dao" />
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
     </bean>
 
     <!-- tx -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"/>
+        <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <tx:annotation-driven transaction-manager="transactionManager" />
 
+    <!-- druid -->
     <bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
-        <property name="slowSqlMillis" value="3000"/>
-        <property name="logSlowSql" value="true"/>
-        <property name="mergeSql" value="true"/>
+        <property name="slowSqlMillis" value="3000" />
+        <property name="logSlowSql" value="true" />
+        <property name="mergeSql" value="true" />
     </bean>
-
     <bean id="wall-filter" class="com.alibaba.druid.wall.WallFilter">
-        <property name="dbType" value="mysql"/>
+        <property name="dbType" value="mysql" />
     </bean>
 
 </beans>
