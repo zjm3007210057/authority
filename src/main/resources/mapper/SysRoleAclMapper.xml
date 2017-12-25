@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.authority.mapper.SysRoleAclMapper">
+    <resultMap id="sysRoleAcl" type="com.authority.model.db.SysRoleAcl">
+        <id column="id" property="id"/>
+        <result column="acl_id" property="aclId"/>
+        <result column="role_id" property="roleId"/>
+        <result column="operator" property="operator"/>
+        <result column="operate_time" property="operateTime"/>
+        <result column="operate_ip" property="operateIp"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.authority.model.db.SysAclModule"
+            useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO sys_role_acl (acl_id, role_id, operator, operate_time, operate_ip)
+        VALUES (#{aclId}, #{roleId}, #{operator}, #{operateTIme}, #{operateIp})
+    </insert>
+
+    <update id="update" parameterType="com.authority.model.db.SysRoleAcl">
+        UPDATE sys_role_acl SET
+        <if test="aclId != null and aclId > 0">
+            AND acl_id = #{aclId}
+        </if>
+        <if test="roleId != null and roleId > 0">
+            AND role_id = #{roleId}
+        </if>
+        <if test="operator != null and operator != ''">
+            AND operator = #{operator}
+        </if>
+        <if test="operateTime != null">
+            AND operate_time = #{operateTime}
+        </if>
+        <if test="operateIp != null and operateId != ''">
+            AND operate_id = #{operateId}
+        </if>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteByIds" parameterType="java.util.List">
+        DELETE FROM sys_role_acl WHERE id IN
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="findById" resultMap="sysRoleAcl">
+        SELECT id, acl_id, role_id, operator, operate_time, operate_ip
+        FROM sys_role_acl
+        WHERE id = #{id}
+    </select>
+
+    <select id="findAll" resultMap="sysRoleAcl">
+        SELECT id, acl_id, role_id, operator, operate_time, operate_ip
+        FROM sys_role_acl
+    </select>
+
+</mapper>

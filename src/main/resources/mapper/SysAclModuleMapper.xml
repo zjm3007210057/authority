@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.authority.mapper.SysAclModuleMapper">
+    <resultMap id="sysAclModule" type="com.authority.model.db.SysAclModule">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="level" property="level"/>
+        <result column="status" property="status"/>
+        <result column="seq" property="seq"/>
+        <result column="remark" property="remark"/>
+        <result column="operator" property="operator"/>
+        <result column="operate_time" property="operateTime"/>
+        <result column="operate_ip" property="operateIp"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.authority.model.db.SysAclModule"
+            useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO sys_acl_module (name, parent_id, level, status, seq, remark, operator, operate_time, operate_ip)
+        VALUES (#{name}, #{parentId}, #{level}, #{status}, #{seq}, #{remark}, #{operator}, #{operateTIme}, #{operateIp})
+    </insert>
+    <update id="update" parameterType="com.authority.model.db.SysAclModule">
+        UPDATE sys_acl_module SET
+        <if test="name != null and name != ''">
+            AND name = #{name}
+        </if>
+        <if test="parentId != null and parentId > 0">
+            AND parent_id = #{parentId}
+        </if>
+        <if test="level != null and level != ''">
+            AND level = #{level}
+        </if>
+        <if test="seq != null and seq > 0">
+            AND seq = #{seq}
+        </if>
+        <if test="status != null and status > 0">
+            AND status = #{status}
+        </if>
+        <if test="remark != null and remark != ''">
+            AND remark = #{remark}
+        </if>
+        <if test="operator != null and operator != ''">
+            AND operator = #{operator}
+        </if>
+        <if test="operateTime != null">
+            AND operate_time = #{operateTime}
+        </if>
+        <if test="operateIp != null and operateId != ''">
+            AND operate_id = #{operateId}
+        </if>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteByIds" parameterType="java.util.List">
+        DELETE FROM sys_acl_module WHERE id IN
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="findById" resultMap="sysAclModule">
+        SELECT id, name, parent_id, level, status, seq, remark, operator, operate_time, operate_ip
+        FROM sys_acl_module
+        WHERE id = #{id}
+    </select>
+
+    <select id="findAll" resultMap="sysAclModule">
+        SELECT id, name, parent_id, level, status, seq, remark, operator, operate_time, operate_ip
+        FROM sys_acl_module
+    </select>
+</mapper>

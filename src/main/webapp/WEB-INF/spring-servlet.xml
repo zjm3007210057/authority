@@ -15,11 +15,18 @@
     <!-- 启动注解驱动的spring mvc 功能 -->
     <mvc:annotation-driven/>
 
+    <mvc:interceptors>
+        <bean class="com.authority.common.HttpInterceptor"/>
+    </mvc:interceptors>
+
     <context:component-scan base-package="com.authority.controller"/>
     <context:component-scan base-package="com.authority.service"/>
 
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
     <bean class="org.springframework.web.servlet.view.BeanNameViewResolver"/>
+
+    <!-- lazy-init为false表示程序一起动就加载 -->
+    <bean class="com.authority.util.ApplicationContextHelper" lazy-init="false"/>
 
     <bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
 

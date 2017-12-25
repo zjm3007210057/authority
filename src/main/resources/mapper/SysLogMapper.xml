@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.authority.mapper.SysLogMapper">
+    <resultMap id="sysLog" type="com.authority.model.db.SysLog">
+        <id column="id" property="id"/>
+        <result column="target_id" property="targetId"/>
+        <result column="old_value" property="oldValue"/>
+        <result column="new_value" property="newValue"/>
+        <result column="type" property="type"/>
+        <result column="status" property="status"/>
+        <result column="operator" property="operator"/>
+        <result column="operate_time" property="operateTime"/>
+        <result column="operate_ip" property="operateIp"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.authority.model.db.SysLog"
+            useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO sys_log (target_id, old_value, new_value, status, type, operator, operate_time, operate_ip)
+        VALUES (#{targetId}, #{oldValue}, #{newValue}, #{status}, #{type}, #{operator}, #{operateTIme}, #{operateIp})
+    </insert>
+
+    <select id="findById" resultMap="sysLog">
+        SELECT id, target_id, old_value, new_value, status, type, operator, operate_time, operate_ip
+        FROM sys_log
+        WHERE id = #{id}
+    </select>
+
+    <select id="findAll" resultMap="sysLog">
+        SELECT id, target_id, old_value, new_value, status, type, operator, operate_time, operate_ip
+        FROM sys_log
+    </select>
+
+</mapper>

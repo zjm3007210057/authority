@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.authority.mapper.SysRoleMapper">
+    <resultMap id="sysRole" type="com.authority.model.db.SysRole">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="type" property="type"/>
+        <result column="status" property="status"/>
+        <result column="remark" property="remark"/>
+        <result column="operator" property="operator"/>
+        <result column="operate_time" property="operateTime"/>
+        <result column="operate_ip" property="operateIp"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.authority.model.db.SysRole"
+            useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO sys_role (name, type, status, remark, operator, operate_time, operate_ip)
+        VALUES (#{name}, #{parentId}, #{level}, #{status}, #{seq}, #{remark}, #{operator}, #{operateTIme}, #{operateIp})
+    </insert>
+
+    <update id="update" parameterType="com.authority.model.db.SysRole">
+        UPDATE sys_role SET
+        <if test="name != null and name != ''">
+            AND name = #{name}
+        </if>
+        <if test="type != null and type > 0">
+            AND type = #{type}
+        </if>
+        <if test="status != null and status > 0">
+            AND status = #{status}
+        </if>
+        <if test="remark != null and remark != ''">
+            AND remark = #{remark}
+        </if>
+        <if test="operator != null and operator != ''">
+            AND operator = #{operator}
+        </if>
+        <if test="operateTime != null">
+            AND operate_time = #{operateTime}
+        </if>
+        <if test="operateIp != null and operateId != ''">
+            AND operate_id = #{operateId}
+        </if>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteByIds" parameterType="java.util.List">
+        DELETE FROM sys_role WHERE id IN
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="findById" resultMap="sysRole">
+        SELECT id, name, type, status, remark, operator, operate_time, operate_ip
+        from sys_role
+        WHERE id = #{id}
+    </select>
+
+    <select id="findAll" resultMap="sysRole">
+        SELECT id, name, type, status, remark, operator, operate_time, operate_ip
+        from sys_role
+    </select>
+
+</mapper>
