@@ -22,6 +22,11 @@
     <context:component-scan base-package="com.authority.controller"/>
     <context:component-scan base-package="com.authority.service"/>
 
+    <mvc:resources mapping="/js/**" location="/js/" />
+    <mvc:resources mapping="/css/**" location="/css" />
+    <mvc:resources mapping="/bootstrap3.3.5/**" location="/bootstrap3.3.5" />
+    <mvc:resources mapping="/assets/**" location="/assets" />
+
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
     <bean class="org.springframework.web.servlet.view.BeanNameViewResolver"/>
 
@@ -31,7 +36,8 @@
     <bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/views/"/>
+        <!-- 有时候需要WEB-INF这一层，有时候不需要，主要看InternalResourceViewResolver这个类，它对应的是WEB-INF上一层 -->
+        <property name="prefix" value="/WEB-INF/views/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
 </beans>

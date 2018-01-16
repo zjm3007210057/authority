@@ -2,6 +2,7 @@ package com.authority.mapper;
 
 import com.authority.model.db.SysDept;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -51,4 +52,26 @@ public interface SysDeptMapper {
      * @return
      */
     SysDept findByName(String name);
+
+    /**
+     * 根据level获取子部门list
+     * @param level
+     * @return
+     */
+    List<SysDept> getChildDeptListByLevel(String level);
+
+    /**
+     * 批量更新部门列表
+     * @param list
+     */
+    void batchUpdateLevel(List<SysDept> list);
+
+    /**
+     * 根据名称和parentId查询记录数
+     * @param parentId 父级部门id
+     * @param name 部门name
+     * @param id id
+     * @return
+     */
+    int countByNameAndParentId(@Param("parentId")int parentId, @Param("name") String name, @Param("id") Integer id);
 }

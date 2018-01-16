@@ -43,7 +43,7 @@ public class BaseResponse {
     /**
      * 无参构造函数
      */
-    public BaseResponse() {
+    private BaseResponse() {
         this(SUCCESS_CODE, SUCCESS_MSG);
     }
 
@@ -76,6 +76,14 @@ public class BaseResponse {
     public BaseResponse(Object data) {
         this(SUCCESS_CODE, SUCCESS_MSG);
         this.data = data;
+    }
+
+    /**
+     * 请求成功
+     * @return
+     */
+    public static BaseResponse success(){
+        return new BaseResponse();
     }
 
     /**

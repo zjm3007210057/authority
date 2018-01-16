@@ -18,7 +18,7 @@
     <insert id="insert" parameterType="com.authority.model.db.SysDept"
             useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO sys_dept (name, parent_id, level, seq, remark, operator, operate_time, operate_ip)
-        VALUES (#{name}, #{parentId}, #{level}, #{level}, #{seq}, #{remark}, #{operator},
+        VALUES (#{name}, #{parentId}, #{level}, #{seq}, #{remark}, #{operator},
               #{operateTime}, #{operateIp})
     </insert>
 
@@ -51,6 +51,14 @@
         WHERE id = #{id}
     </update>
 
+    <update id="batchUpdateLevel" parameterType="java.util.List">
+        <foreach collection="list" item="item" separator=";">
+            UPDATE sys_dept
+            SET level = #{item.level}
+            WHERE id = #{item.id}
+        </foreach>
+    </update>
+
     <delete id="deleteByIds" parameterType="java.util.List">
         DELETE FROM sys_dept WHERE id IN
         <foreach collection="list" item="id" open="(" close=")" separator=",">
@@ -73,6 +81,21 @@
         SELECT id, name, parent_id, level, seq, remark, operator, operate_time, operate_ip
         FROM sys_dept
         WHERE name = #{name}
+    </select>
+
+    <select id="getChildDeptListByLevel" resultMap="sysDept">
+        SELECT id, name, parent_id, level, seq, remark, operator, operate_time, operate_ip
+        FROM sys_dept
+        WHERE level like #{level} || '.%' -- level like '0.%'
+    </select>
+
+    <select id="countByNameAndParentId" resultType="java.lang.Integer">
+        SELECT count(id)
+        FROM sys_dept
+        WHERE parent_id = #{parentId} AND name = #{name}
+        <if test="id != null and id > 0">
+            AND id != #{id}
+        </if>
     </select>
 
 </mapper>

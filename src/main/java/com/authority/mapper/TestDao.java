@@ -1,4 +1,4 @@
-package com.authority.dao;
+package com.authority.mapper;
 
 /**
  * Created by zjm on 13/12/2017.
