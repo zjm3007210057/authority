@@ -207,9 +207,11 @@
 
         function loadDeptTree() {
             $.ajax({
+                type: "GET",
                 url: "/sys/dept/tree.json",
+                dateType: "json",
                 success : function (result) {
-                    if (result.ret) {
+                    if (result.code == '000000') {
                         deptList = result.data;
                         var rendered = Mustache.render(deptListTemplate, {deptList: result.data});
                         $("#deptList").html(rendered);

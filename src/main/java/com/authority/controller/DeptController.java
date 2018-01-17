@@ -8,8 +8,9 @@ import com.authority.service.SysTreeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
  * 部门controller
  * Created by zjm on 08/01/2018.
  */
-@RestController
+@Controller
 @RequestMapping("/sys/dept")
 public class DeptController {
 
@@ -50,6 +51,7 @@ public class DeptController {
      * @return
      */
     @RequestMapping("/save.json")
+    @ResponseBody
     public BaseResponse saveDept(DeptDO deptDO){
         deptService.save(deptDO);
         return BaseResponse.success();
@@ -60,12 +62,15 @@ public class DeptController {
      * @return
      */
     @RequestMapping("/tree.json")
+    @ResponseBody
     public BaseResponse tree(){
         List<DeptLevelDO> levelDOS = sysTreeService.deptTree();
-        return new BaseResponse(levelDOS);
+        BaseResponse response = new BaseResponse(levelDOS);
+        return response;
     }
 
     @RequestMapping("/update.json")
+    @ResponseBody
     public BaseResponse update(DeptDO deptDO){
         deptService.update(deptDO);
         return BaseResponse.success();
