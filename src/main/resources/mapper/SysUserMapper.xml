@@ -75,4 +75,29 @@
         FROM sys_user
     </select>
 
+    <select id="findByKeyword" resultMap="sysUser">
+        SELECT id, name, phone_no, mail, password, dept_id, status, remark, operator, operate_time, operate_ip
+        FROM sys_user
+        WHERE phone_no = #{keyword}
+        OR mail = #{keyword}
+    </select>
+
+    <select id="countByMail" resultType="java.lang.Integer" parameterType="map">
+        SELECT COUNT(1)
+        FROM sys_user
+        WHERE mail = #{mail}
+        <if test="id > 0">
+            AND id != #{id}
+        </if>
+    </select>
+
+    <select id="countByPhoneNo" resultType="java.lang.Integer" parameterType="map">
+        SELECT COUNT(1)
+        FROM sys_user
+        WHERE phone_no = #{phoneNo}
+        <if test="id > 0">
+            AND id != #{id}
+        </if>
+    </select>
+
 </mapper>

@@ -1,5 +1,5 @@
-<%@ page import="com.mmall.common.RequestHolder" %>
-<%@ page import="com.mmall.model.SysUser" %>
+<%--<%@ page import="com.authority.common.RequestHolder" %>--%>
+<%@ page import="com.authority.model.db.SysUser" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">

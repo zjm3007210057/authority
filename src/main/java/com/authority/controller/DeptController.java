@@ -69,6 +69,11 @@ public class DeptController {
         return response;
     }
 
+    /**
+     * 部门更新
+     * @param deptDO
+     * @return
+     */
     @RequestMapping("/update.json")
     @ResponseBody
     public BaseResponse update(DeptDO deptDO){

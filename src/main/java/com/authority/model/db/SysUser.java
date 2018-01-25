@@ -18,6 +18,21 @@ import java.util.Date;
 public class SysUser {
 
     /**
+     * 正常状态
+     */
+    public static final int STATUS_NORMAL = 1;
+
+    /**
+     * 冻结状态
+     */
+    public static final int STATUS_FREEZE = 2;
+
+    /**
+     * 删除状态
+     */
+    public static final int STATUS_DELETE = 3;
+
+    /**
      * 主键id
      */
     private int id;
