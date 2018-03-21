@@ -1,11 +1,15 @@
 package com.authority.controller;
 
 import com.authority.common.BaseResponse;
+import com.authority.model.db.SysUser;
 import com.authority.model.dto.UserDO;
+import com.authority.model.info.PageInfo;
+import com.authority.param.PageParam;
 import com.authority.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -47,5 +51,12 @@ public class SysUserController {
     @RequestMapping("/user.page")
     public ModelAndView page() {
         return new ModelAndView("user");
+    }
+
+    @RequestMapping("page.json")
+    @ResponseBody
+    public BaseResponse pageJson(@RequestParam("deptId") int depId, PageParam pageParam){
+        PageInfo<SysUser> pageInfo = sysUserService.getPageByDeptId(depId, pageParam);
+        return new BaseResponse(pageInfo);
     }
 }

@@ -170,10 +170,10 @@
 <script id="userListTemplate" type="x-tmpl-mustache">
 {{#userList}}
 <tr role="row" class="user-name odd" data-id="{{id}}"><!--even -->
-    <td><a href="#" class="user-edit" data-id="{{id}}">{{username}}</a></td>
+    <td><a href="#" class="user-edit" data-id="{{id}}">{{name}}</a></td>
     <td>{{showDeptName}}</td>
     <td>{{mail}}</td>
-    <td>{{telephone}}</td>
+    <td>{{phoneNo}}</td>
     <td>{{#bold}}{{showStatus}}{{/bold}}</td> <!-- 此处套用函数对status做特殊处理 -->
     <td>
         <div class="hidden-sm hidden-xs action-buttons">
@@ -340,8 +340,8 @@
         }
 
         function renderUserListAndPage(result, url) {
-            if (result.ret) {
-                if (result.data.total > 0){
+            if (result.code == "000000") {
+                if (result.data.totalNum > 0){
                     var rendered = Mustache.render(userListTemplate, {
                         userList: result.data.data,
                         "showDeptName": function() {
@@ -373,7 +373,7 @@
                 }
                 var pageSize = $("#pageSize").val();
                 var pageNo = $("#userPage .pageNo").val() || 1;
-                renderPage(url, result.data.total, pageNo, pageSize, result.data.total > 0 ? result.data.data.length : 0, "userPage", renderUserListAndPage);
+                renderPage(url, result.data.totalNum, pageNo, pageSize, result.data.totalNum > 0 ? result.data.data.length : 0, "userPage", renderUserListAndPage);
             } else {
                 showMessage("获取部门下用户列表", result.msg, false);
             }
@@ -442,9 +442,9 @@
                         var targetUser = userMap[userId];
                         if (targetUser) {
                             $("#deptSelectId").val(targetUser.deptId);
-                            $("#userName").val(targetUser.username);
+                            $("#userName").val(targetUser.name);
                             $("#userMail").val(targetUser.mail);
-                            $("#userTelephone").val(targetUser.telephone);
+                            $("#userTelephone").val(targetUser.phoneNo);
                             $("#userStatus").val(targetUser.status);
                             $("#userRemark").val(targetUser.remark);
                             $("#userId").val(targetUser.id);

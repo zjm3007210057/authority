@@ -46,6 +46,7 @@ public class HttpInterceptor extends HandlerInterceptorAdapter {
      */
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         super.postHandle(request, response, handler, modelAndView);
+        removeThreadLocalInfo();
     }
 
     /**
@@ -58,5 +59,13 @@ public class HttpInterceptor extends HandlerInterceptorAdapter {
      */
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         super.afterCompletion(request, response, handler, ex);
+        removeThreadLocalInfo();
+    }
+
+    /**
+     * 移除当前线程里面的用户信息和http请求
+     */
+    public void removeThreadLocalInfo(){
+        RequestHolder.remove();
     }
 }

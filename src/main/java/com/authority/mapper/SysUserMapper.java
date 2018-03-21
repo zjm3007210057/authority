@@ -68,4 +68,20 @@ public interface SysUserMapper {
      * @return
      */
     int countByPhoneNo(@Param(value = "phoneNo")String phoneNo, @Param(value = "id")int id);
+
+    /**
+     * 根据部门ID查询记录数
+     * @param deptId 部门ID
+     * @return
+     */
+    int countByDeptId(@Param("deptId") int deptId);
+
+    /**
+     * 分解部门ID查询特定的记录
+     * @param deptId 部门ID
+     * @param start 查询起始下标
+     * @param pageSize 查询的总量
+     * @return
+     */
+    List<SysUser> getPageByDeptId(@Param("deptId") int deptId, @Param("start") int start, @Param("pageSize") int pageSize);
 }

@@ -38,6 +38,14 @@ public class PageInfo<T> {
      */
     private List<T> data;
 
+    public PageInfo() {
+    }
+
+    public PageInfo(int pageNo, int pageSize) {
+        this.pageNo = pageNo;
+        this.pageSize = pageSize;
+    }
+
     public int getOffset(){
         return (this.pageNo - 1) * this.pageSize;
     }

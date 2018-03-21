@@ -99,5 +99,20 @@
             AND id != #{id}
         </if>
     </select>
+    <select id="countByDeptId" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM sys_user
+        WHERE dept_id = #{deptId}
+    </select>
+
+    <select id="getPageByDeptId" resultMap="sysUser">
+        SELECT id, name, phone_no, mail, password, dept_id, status, remark, operator, operate_time, operate_ip
+        FROM sys_user
+        WHERE dept_id = #{deptId}
+        ORDER BY name ASC
+        <if test="pageSize > 0">
+            LIMIT #{start}, #{pageSize}
+        </if>
+    </select>
 
 </mapper>

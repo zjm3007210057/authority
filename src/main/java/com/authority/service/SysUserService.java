@@ -1,10 +1,13 @@
 package com.authority.service;
 
 import com.alibaba.fastjson.JSON;
+import com.authority.common.RequestHolder;
 import com.authority.ex.BizException;
 import com.authority.mapper.SysUserMapper;
 import com.authority.model.db.SysUser;
 import com.authority.model.dto.UserDO;
+import com.authority.model.info.PageInfo;
+import com.authority.param.PageParam;
 import com.authority.util.BeanValidator;
 import com.authority.util.MD5Util;
 import com.authority.util.ObjectUtils;
@@ -16,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 用户服务
@@ -54,7 +58,7 @@ public class SysUserService {
         SysUser sysUser = convert(userDO);
         sysUser.setPassword(password);
         sysUser.setOperateIp("127.0.0.1");
-        sysUser.setOperator("system");
+        sysUser.setOperator(RequestHolder.getSysUser().getName());
         sysUser.setOperateTime(new Date());
         //todo sendEmail notify user password
         userMapper.insert(sysUser);
@@ -74,7 +78,11 @@ public class SysUserService {
         }
         SysUser beforUser = userMapper.findById(userDO.getId());
         Preconditions.checkNotNull(beforUser, "待更新的用户不存在");
-        userMapper.update(convert(userDO));
+        SysUser newUser = convert(userDO);
+        newUser.setOperateIp("127.0.0.1");
+        newUser.setOperator(RequestHolder.getSysUser().getName());
+        newUser.setOperateTime(new Date());
+        userMapper.update(newUser);
     }
 
     /**
@@ -124,6 +132,29 @@ public class SysUserService {
      */
     private boolean checkEmailExist(String email, int userId){
         return userMapper.countByMail(email, userId) > 0;
+    }
+
+    /**
+     * 根据部门ID分页查询用户
+     * @param deptId 部门ID
+     * @param pageParam 分页参数
+     * @return
+     */
+    public PageInfo<SysUser> getPageByDeptId(int deptId, PageParam pageParam){
+        BeanValidator.check(pageParam);
+        int count = userMapper.countByDeptId(deptId);
+        if(count > 0){
+            int start = (pageParam.getCurrentPage() - 1) * pageParam.getPageSize();
+            int totalPage = count % pageParam.getPageSize() == 0 ? count / pageParam.getPageSize() : count / pageParam.getPageSize() + 1;
+            List<SysUser> list = userMapper.getPageByDeptId(deptId, start, pageParam.getPageSize());
+            PageInfo pageInfo = new PageInfo(pageParam.getCurrentPage(), pageParam.getPageSize());
+            pageInfo.setOffset(start);
+            pageInfo.setTotalNum(count);
+            pageInfo.setTotalPage(totalPage);
+            pageInfo.setData(list);
+            return pageInfo;
+        }
+        return new PageInfo<SysUser>();
     }
 
 }

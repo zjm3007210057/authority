@@ -1,5 +1,6 @@
 package com.authority.service;
 
+import com.authority.common.RequestHolder;
 import com.authority.ex.BizException;
 import com.authority.mapper.SysDeptMapper;
 import com.authority.model.db.SysDept;
@@ -42,7 +43,7 @@ public class DeptService {
         SysDept dept = convertToDo(deptDO);
         //todo 修改ip和操作员
         dept.setOperateIp("127.0.0.1");
-        dept.setOperator("system");
+        dept.setOperator(RequestHolder.getSysUser().getName());
         dept.setOperateTime(new Date());
         deptMapper.insert(dept);
     }
@@ -84,7 +85,7 @@ public class DeptService {
         Preconditions.checkNotNull(before, "待更新的部门不存在");
         SysDept dept = convertToDo(deptDO);
         dept.setOperateIp("127.0.0.1");
-        dept.setOperator("system");
+        dept.setOperator(RequestHolder.getSysUser().getName());
         dept.setOperateTime(new Date());
     }
 
